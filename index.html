@@ -31,6 +31,107 @@
             <li>Nachos</li>
         </ul>
 
+        <hr>
+        <h2>Sports/Activities that I recommend</h2>
+        <p>Here is a list of sports/activities that I recommened trying!</p>
+
+        <table>
+            <tr>
+                <th>Name of sport/activity</th>
+                <th>Location</th>
+                <th>Cost</th>
+            </tr>
+            <tr>
+                <td>Chess</td>
+                <td>Online/Inperson</td>
+                <td>0$ (Excluding Coaching/Travel)</td>
+            </tr>
+            <tr>
+                <td>Basketball</td>
+                <td>Inperson/Basketball Court</td>
+                <td>50$</td>
+            </tr>
+            <tr>
+                <td>Soccer</td>
+                <td>Inperson/Soccer Field</td>
+                <td>20$</td>
+            </tr>
+            <tr>
+                <td>Cybersecurity CTFs</td>
+                <td>Cyber Defense Club meetings	</td>
+                <td>35$</td>
+            </tr>
+            <tr>
+                <td>Ping Pong</td>
+                <td>Inperson/Ping Pong Table</td>
+                <td>15$</td>
+            </tr>
+        </table>
+
+        <hr>
+        <h2>Aho-Corasick algorithm</h2>
+        <blockquote cite='https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm'>
+            In computer science, the Aho–Corasick algorithm is a string-searching algorithm invented by Alfred V. Aho and Margaret J. Corasick in 1975.[1] It is a kind of dictionary-matching algorithm that locates elements of a finite set of strings (the "dictionary") within an input text. See <a href="https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm">Wikipedia</a> for more information.
+        </blockquote> 
+
+        <pre>
+const int K = 26;
+
+struct Vertex {
+    int next[K];
+    bool leaf = false;
+    int p = -1;
+    char pch;
+    int link = -1;
+    int go[K];
+
+    Vertex(int p=-1, char ch='$') : p(p), pch(ch) {
+        fill(begin(next), end(next), -1);
+        fill(begin(go), end(go), -1);
+    }
+};
+
+vector<Vertex> t(1);
+
+void add_string(string const& s) {
+    int v = 0;
+    for (char ch : s) {
+        int c = ch - 'a';
+        if (t[v].next[c] == -1) {
+            t[v].next[c] = t.size();
+            t.emplace_back(v, ch);
+        }
+        v = t[v].next[c];
+    }
+    t[v].leaf = true;
+}
+
+int go(int v, char ch);
+
+int get_link(int v) {
+    if (t[v].link == -1) {
+        if (v == 0 || t[v].p == 0)
+            t[v].link = 0;
+        else
+            t[v].link = go(get_link(t[v].p), t[v].pch);
+    }
+    return t[v].link;
+}
+
+int go(int v, char ch) {
+    int c = ch - 'a';
+    if (t[v].go[c] == -1) {
+        if (t[v].next[c] != -1)
+            t[v].go[c] = t[v].next[c];
+        else
+            t[v].go[c] = v == 0 ? 0 : go(get_link(v), ch);
+    }
+    return t[v].go[c];
+} 
+        </pre>
+        
+        <hr>
+
         <a href="./aboutme.html">See the about me section.</a>
     </body>
 </html>
